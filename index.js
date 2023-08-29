@@ -1,15 +1,12 @@
 const express = require("express");
-const usersRouter = require("./routes/users");
 const app = express();
-const port = 3001;
+const port = process.env.WORKER_PORT || 3000;
+
+console.log(`Worker pid=${process.pid}`);
 
 app.get("/", (req, res) => {
-  res.send("Hello World ta ok!");
+  res.send(`Response from worker pid=${process.pid}`);
 });
-
-app.use("/users", usersRouter);
-
-console.log(`worker pid=${process.pid}`);
 
 app.get("/heavy", (req, res) => {
   let total = 0;
@@ -20,5 +17,5 @@ app.get("/heavy", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Worker pid=${process.pid} is listening on port ${port}`);
 });
